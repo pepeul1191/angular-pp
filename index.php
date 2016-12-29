@@ -17,6 +17,10 @@ Flight::route('/hello', function(){
     Flight::view()->display('hello.tpl');
 });
 
+Flight::route('/angular', function(){
+    include 'views/index.html';
+});
+
 Flight::start();
 
 ?>
