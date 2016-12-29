@@ -21,6 +21,14 @@ Flight::route('/angular', function(){
     include 'views/index.html';
 });
 
+Flight::route('/access/error/404', function(){
+    include 'views/404.html';
+});
+
+Flight::map('notFound', function(){
+    Flight::redirect('/access/error/404');
+});
+
 Flight::start();
 
 ?>
