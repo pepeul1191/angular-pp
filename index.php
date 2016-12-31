@@ -3,6 +3,18 @@
 require 'vendor/autoload.php';
 define('BASE_URL', 'http://localhost/angular-pp/');
 
+function smarty_prefilter_angularjsescape($source, Smarty_Internal_Template $smarty){
+   $source = str_replace('{{', '%AJSL%', $source);
+   $source = str_replace('}}', '%AJSR%', $source);
+   return $source;
+}
+
+function smarty_postfilter_angularjsescape($source, Smarty_Internal_Template $template){
+   $source = str_replace('%AJSL%', '{{', $source);
+   $source = str_replace('%AJSR%', '}}', $source);
+   return $source;
+}
+
 Flight::register('view', 'Smarty', array(), function($smarty){
     $smarty->template_dir = 'templates/';
     $smarty->compile_dir = 'templates_c/';
@@ -12,6 +24,7 @@ Flight::register('view', 'Smarty', array(), function($smarty){
 
 Flight::route('/', function(){
 	Flight::view()->assign('BASE_URL', BASE_URL);
+	Flight::view()->autoload_filters = array('pre' => array('angularjsescape'),'post' => array('angularjsescape'));
     Flight::view()->display('index.tpl');
 });
 
